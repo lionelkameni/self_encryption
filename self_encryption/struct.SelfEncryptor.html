@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         <a href='../self_encryption/index.html'><img src='http://maidsafe.net/img/Resources/branding/maidsafe_logo.fab2.png' alt='' width='100'></a>
-        <p class='location'><a href='index.html'>self_encryption</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='datamap/index.html' title='Holds pre and post encryption hashes as well as original chunk size'>datamap</a></div><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.SelfEncryptor.html' title='This is the encryption object and all file handling should be done via this as the low level mechanism to read and write *content* this library has no knowledge of file metadata. This is a library to ensure content is secured '>SelfEncryptor</a></div><div class='block fn'><h2>Functions</h2><a class='fn ' href='fn.create_temp_dir.html' title='Will use a tempdir to stream un procesed data, although this is done vie AES streaming with a randome key and IV'>create_temp_dir</a></div>
+        <p class='location'><a href='index.html'>self_encryption</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='datamap/index.html' title='Holds pre and post encryption hashes as well as original chunk size'>datamap</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Chunk.html' title=''>Chunk</a><a class='struct current' href='struct.SelfEncryptor.html' title='This is the encryption object and all file handling should be done via this as the low level mechanism to read and write *content* this library has no knowledge of file metadata. This is a library to ensure content is secured '>SelfEncryptor</a></div><div class='block fn'><h2>Functions</h2><a class='fn ' href='fn.create_temp_dir.html' title='Will use a tempdir to stream un procesed data, although this is done vie AES streaming with a randome key and IV'>create_temp_dir</a></div>
     </section>
 
     <nav class="sub">
@@ -43,17 +43,25 @@
     <section id='main' class="content struct">
 <h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>self_encryption</a>::<wbr><a class='struct' href=''>SelfEncryptor</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-491' href='../src/self_encryption/lib.rs.html#89-94'>[src]</a></span></h1>
+        </span><a id='src-587' href='../src/self_encryption/lib.rs.html#92-101'>[src]</a></span></h1>
 <pre class='rust struct'>pub struct SelfEncryptor {
     // some fields omitted
 }</pre><div class='docblock'><p>This is the encryption object and all file handling should be done via this as the low level
 mechanism to read and write <em>content</em> this library has no knowledge of file metadata. This is
 a library to ensure content is secured </p>
-</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../self_encryption/struct.SelfEncryptor.html' title='self_encryption::SelfEncryptor'>SelfEncryptor</a></code></h3><div class='impl-items'><h4 id='method.new' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new' class='fnname'>new</a>() -&gt; <a class='struct' href='../self_encryption/struct.SelfEncryptor.html' title='self_encryption::SelfEncryptor'>SelfEncryptor</a></code></h4>
-<div class='docblock'><p>constructor for encryptor object</p>
-</div><h4 id='method.write' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.write' class='fnname'>write</a>(&amp;mut self, data: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, position: <a href='http://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a>)</code></h4>
-<div class='docblock'><p>Write method mirrors a posix type write mechanism</p>
-</div><h4 id='method.len' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.len' class='fnname'>len</a>(&amp;self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a></code></h4>
+</div><h2 id='methods'>Methods</h2><h3 class='impl'><a class='stability Unmarked' title='No stability level'></a><code>impl <a class='struct' href='../self_encryption/struct.SelfEncryptor.html' title='self_encryption::SelfEncryptor'>SelfEncryptor</a></code></h3><div class='docblock'><p>constructor for encryptor object
+Each SelfEncryptor is used for a single file.
+The parameters are a DataMap a Get and Put functor. 
+the get and put functors should be passed to this library to 
+allow the SelfEncryptor to store encrypted chunks and retrieve these 
+when necessary.</p>
+</div><div class='impl-items'><h4 id='method.new' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.new' class='fnname'>new</a>&lt;Get: 'static, Put: 'static&gt;(datamap: <a class='enum' href='../self_encryption/datamap/enum.DataMap.html' title='self_encryption::datamap::DataMap'>DataMap</a>, get: Get, put: Put) -&gt; <a class='struct' href='../self_encryption/struct.SelfEncryptor.html' title='self_encryption::SelfEncryptor'>SelfEncryptor</a> <span class='where'>where Get: <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.FnMut.html' title='core::ops::FnMut'>FnMut</a>(<a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;) -&gt; <a class='struct' href='../self_encryption/struct.Chunk.html' title='self_encryption::Chunk'>Chunk</a>, Put: <a class='trait' href='http://doc.rust-lang.org/nightly/core/ops/trait.FnMut.html' title='core::ops::FnMut'>FnMut</a>(<a class='struct' href='../self_encryption/struct.Chunk.html' title='self_encryption::Chunk'>Chunk</a>) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.tuple.html'>()</a></span></code></h4>
+<h4 id='method.write' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.write' class='fnname'>write</a>(&amp;mut self, data: &amp;<a href='http://doc.rust-lang.org/nightly/std/primitive.str.html'>str</a>, position: <a href='http://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a>)</code></h4>
+<div class='docblock'><p>Write method mirrors a posix type write mechanism
+loosly mimics filsystem interface for easy connection to FUSE like 
+programs as well as fine grained access to system level libraries for developers.</p>
+</div><h4 id='method.read' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.read' class='fnname'>read</a>(&amp;mut self, position: <a href='http://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a>, length: <a href='http://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a>) -&gt; <a class='struct' href='http://doc.rust-lang.org/nightly/collections/string/struct.String.html' title='collections::string::String'>String</a></code></h4>
+<h4 id='method.len' class='method'><a class='stability Unmarked' title='No stability level'></a><code>fn <a href='#method.len' class='fnname'>len</a>(&amp;self) -&gt; <a href='http://doc.rust-lang.org/nightly/std/primitive.u64.html'>u64</a></code></h4>
 <div class='docblock'><p>current file size as is known by encryptor</p>
 </div></div></section>
     <section id='search' class="content hidden"></section>

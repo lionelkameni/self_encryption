@@ -4,10 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="generator" content="rustdoc">
-    <meta name="description" content="API documentation for the Rust `create_temp_dir` fn in crate `self_encryption`.">
-    <meta name="keywords" content="rust, rustlang, rust-lang, create_temp_dir">
+    <meta name="description" content="API documentation for the Rust `Chunk` struct in crate `self_encryption`.">
+    <meta name="keywords" content="rust, rustlang, rust-lang, Chunk">
 
-    <title>self_encryption::create_temp_dir - Rust</title>
+    <title>self_encryption::Chunk - Rust</title>
 
     <link rel="stylesheet" type="text/css" href="../main.css">
 
@@ -26,7 +26,7 @@
 
     <section class="sidebar">
         <a href='../self_encryption/index.html'><img src='http://maidsafe.net/img/Resources/branding/maidsafe_logo.fab2.png' alt='' width='100'></a>
-        <p class='location'><a href='index.html'>self_encryption</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='datamap/index.html' title='Holds pre and post encryption hashes as well as original chunk size'>datamap</a></div><div class='block struct'><h2>Structs</h2><a class='struct ' href='struct.Chunk.html' title=''>Chunk</a><a class='struct ' href='struct.SelfEncryptor.html' title='This is the encryption object and all file handling should be done via this as the low level mechanism to read and write *content* this library has no knowledge of file metadata. This is a library to ensure content is secured '>SelfEncryptor</a></div><div class='block fn'><h2>Functions</h2><a class='fn current' href='fn.create_temp_dir.html' title='Will use a tempdir to stream un procesed data, although this is done vie AES streaming with a randome key and IV'>create_temp_dir</a></div>
+        <p class='location'><a href='index.html'>self_encryption</a></p><div class='block mod'><h2>Modules</h2><a class='mod ' href='datamap/index.html' title='Holds pre and post encryption hashes as well as original chunk size'>datamap</a></div><div class='block struct'><h2>Structs</h2><a class='struct current' href='struct.Chunk.html' title=''>Chunk</a><a class='struct ' href='struct.SelfEncryptor.html' title='This is the encryption object and all file handling should be done via this as the low level mechanism to read and write *content* this library has no knowledge of file metadata. This is a library to ensure content is secured '>SelfEncryptor</a></div><div class='block fn'><h2>Functions</h2><a class='fn ' href='fn.create_temp_dir.html' title='Will use a tempdir to stream un procesed data, although this is done vie AES streaming with a randome key and IV'>create_temp_dir</a></div>
     </section>
 
     <nav class="sub">
@@ -40,13 +40,15 @@
         </form>
     </nav>
 
-    <section id='main' class="content fn">
-<h1 class='fqn'><span class='in-band'>Function <a href='index.html'>self_encryption</a>::<wbr><a class='fn' href=''>create_temp_dir</a><wbr></span><span class='out-of-band'><span id='render-detail'>
+    <section id='main' class="content struct">
+<h1 class='fqn'><span class='in-band'>Struct <a href='index.html'>self_encryption</a>::<wbr><a class='struct' href=''>Chunk</a><wbr></span><span class='out-of-band'><span id='render-detail'>
             <a id="collapse-all" href="#">[-]</a>&nbsp;<a id="expand-all" href="#">[+]</a>
-        </span><a id='src-363' href='../src/self_encryption/lib.rs.html#62-67'>[src]</a></span></h1>
-<pre class='rust fn'>pub fn create_temp_dir() -&gt; <a class='struct' href='http://doc.rust-lang.org/nightly/std/old_io/tempfile/struct.TempDir.html' title='std::old_io::tempfile::TempDir'>TempDir</a></pre><div class='docblock'><p>Will use a tempdir to stream un procesed data, although this is done vie AES streaming with
-a randome key and IV</p>
-</div></section>
+        </span><a id='src-568' href='../src/self_encryption/lib.rs.html#81'>[src]</a></span></h1>
+<pre class='rust struct'>pub struct Chunk {
+    pub name: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;,
+    pub content: <a class='struct' href='http://doc.rust-lang.org/nightly/collections/vec/struct.Vec.html' title='collections::vec::Vec'>Vec</a>&lt;<a href='http://doc.rust-lang.org/nightly/std/primitive.u8.html'>u8</a>&gt;,
+}</pre><h2 class='fields'>Fields</h2>
+<table><tr><td id='structfield.name'><a class='stability Unmarked' title='No stability level'></a><code>name</code></td><td></td></tr><tr><td id='structfield.content'><a class='stability Unmarked' title='No stability level'></a><code>content</code></td><td></td></tr></table></section>
     <section id='search' class="content hidden"></section>
 
     <section class="footer"></section>
