@@ -19,15 +19,17 @@
 //http://is.gd/mKdopK
 
 #![allow(dead_code, unused_variables)]
+#[allow(unused_assignments)] 
 
 extern crate self_encryption;
 extern crate rand;
-extern crate rustc_back;
+extern crate tempdir;
+//extern crate rustc_back;
 pub use self_encryption::*;
 use std::path::Path;
-use std::fs::File;
 use std::io::*;
-use rustc_back::tempdir::TempDir as TempDir;
+//use rustc_back::tempdir::TempDir as TempDir;
+use tempdir::TempDir as TempDir;
 use std::string::String as String;
 use std::vec::Vec as Vec;
 
@@ -69,13 +71,13 @@ impl Storage for MyStorage {
     let file_path = self.temp_dir.path().join(Path::new(&file_name)); 
     let mut f = match std::fs::File::open(&file_path) {
         // The `desc` field of `IoError` is a string that describes the error
-        Err(why) => panic!("couldn't open: {}", why.description()),
+        Err(e) => panic!("couldn't open: {}", e),
         Ok(file) => file,
     };
     let mut s = String::new();
     //f.read_to_string(&mut s); put f into a string
     match f.read_to_string(&mut s){
-        Err(why) => panic!("couldn't read: {}", why.description()),
+        Err(e) => panic!("couldn't read: {}", e),
         Ok(_) => print!("contains:\n{}", s),
     }
     s.into_bytes()
@@ -86,10 +88,13 @@ impl Storage for MyStorage {
     let file_path = self.temp_dir.path().join(Path::new(&file_name)); 
     let mut f = match std::fs::File::create(&file_path) {
         // The `desc` field of `IoError` is a string that describes the error
-        Err(why) => panic!("couldn't open: {}", why.description()),
+        Err(e) => panic!("couldn't open: {}", e),
         Ok(file) => file,
     };
-    f.write_all(&data);
+    match f.write_all(&data) {
+      Err(e) => panic!("Couldn't write: {}", e),
+      Ok(_) => print!("data written")
+    }
   }
 }
 
@@ -97,8 +102,8 @@ impl Storage for MyStorage {
 
 
 #[test]
-fn check_disk(){
-  let mut vec = vec![300];
+fn check_diskk(){
+  let vec = vec![300];
   for x in vec.iter() {  
       let content = random_string(*x);
       
@@ -112,13 +117,13 @@ fn check_disk(){
         data_map = se.close();
       }
     
-        let mut new_se = SelfEncryptor::new(&mut my_storage as &mut Storage, data_map);
+     let mut new_se = SelfEncryptor::new(&mut my_storage as &mut Storage, data_map);
      {
         let fetched = new_se.read(5u64, *x);    
         assert_eq!(fetched, content);
       }
         let new_data_map = new_se.close();
-        if (*x < (MIN_CHUNK_SIZE as u64)) { 
+        if *x < (MIN_CHUNK_SIZE as u64) { 
 
           match new_data_map {
             datamap::DataMap::Chunks(ref chunks) => panic!("shall not return DataMap::Chunks"),
