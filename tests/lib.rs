@@ -18,8 +18,7 @@
 // Software.
 //http://is.gd/mKdopK
 
-#![allow(dead_code, unused_variables)]
-#[allow(unused_assignments)] 
+
 
 extern crate self_encryption;
 extern crate rand;
@@ -102,7 +101,7 @@ impl Storage for MyStorage {
 
 
 #[test]
-fn check_diskk(){
+fn check_disk(){
   let vec = vec![300];
   for x in vec.iter() {  
       let content = random_string(*x);
@@ -116,6 +115,14 @@ fn check_diskk(){
         assert_eq!(se.len(), to_compare as u64);
         data_map = se.close();
       }
+      assert_eq!(data_map.len() as usize, (*x+5) as usize);
+          // match data_map {
+          //   datamap::DataMap::Chunks(_) => panic!("shall not return DataMap::Chunks"),
+          //   datamap::DataMap::Content(ref content) => {
+          //   assert_eq!(content.len(), (*x+5) as usize);
+          //   }
+          //   datamap::DataMap::None => panic!("shall not return DataMap::None"),
+          // }
     
      let mut new_se = SelfEncryptor::new(&mut my_storage as &mut Storage, data_map);
      {
@@ -126,7 +133,7 @@ fn check_diskk(){
         if *x < (MIN_CHUNK_SIZE as u64) { 
 
           match new_data_map {
-            datamap::DataMap::Chunks(ref chunks) => panic!("shall not return DataMap::Chunks"),
+            datamap::DataMap::Chunks(_) => panic!("shall not return DataMap::Chunks"),
             datamap::DataMap::Content(ref content) => {
             assert_eq!(content.len(), (*x+5) as usize);
             }
@@ -138,7 +145,7 @@ fn check_diskk(){
                 datamap::DataMap::Chunks(ref chunks) => {
                 assert!(chunks.len() == 3);
               }
-                datamap::DataMap::Content(ref content) => panic!("shall not return DataMap::Content"),
+                datamap::DataMap::Content(_) => panic!("shall not return DataMap::Content "),
                 datamap::DataMap::None => panic!("shall not return DataMap::None"),
             }
           }        
