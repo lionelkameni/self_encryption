@@ -116,13 +116,6 @@ fn check_disk(){
         data_map = se.close();
       }
       assert_eq!(data_map.len() as usize, (*x+5) as usize);
-          // match data_map {
-          //   datamap::DataMap::Chunks(_) => panic!("shall not return DataMap::Chunks"),
-          //   datamap::DataMap::Content(ref content) => {
-          //   assert_eq!(content.len(), (*x+5) as usize);
-          //   }
-          //   datamap::DataMap::None => panic!("shall not return DataMap::None"),
-          // }
     
      let mut new_se = SelfEncryptor::new(&mut my_storage as &mut Storage, data_map);
      {
